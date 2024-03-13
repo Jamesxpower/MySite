@@ -1,0 +1,15 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Add a comment {% endblock %}
+
+{% block content %}
+    {% if comment %}
+        <h2>您的註解已經被加入，謝謝 !</h2>
+        <p>
+            <a href="{{ post.get_absolute_url }}">回到上一個貼文</a>
+        </p>
+    {% else %}
+        {% include "blog/post/includes/comment_form.html" %}
+    {% endif %}
+{% endblock %}
+
