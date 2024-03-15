@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+
+{% load blog_tags %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+    {% if query %}
+        <h1>>Posts containing "{{ query }}"</h1>
+        {% with result.count as total_results %}
+            Found {{ total_results }} result {{ total_results|pluralize }}
+        {% endwith %}
+        {% for post in results %}
+            <h4>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </h4>
+            {{ post.body|markdown|truncatewords_html:12 }}
+        {% empty %}
+            <P>沒有任何的 {{ query }}查詢結果</P>
+        {% endfor %}
+        <p><a href="{% url 'blog:post_search' %}">再次搜尋</a></p>
+    {% else %}
+        <h1>針對推文做全文檢索</h1>
+        <form method="GET">
+            {{ form.as_p }}
+            <input type="submit" value="搜尋">
+        </form>
+    {% endif %}
+{% endblock %}
